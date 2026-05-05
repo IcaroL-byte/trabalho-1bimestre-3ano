@@ -20,11 +20,11 @@ public class MainMenuManager : MonoBehaviour
 
     public void NewGame()
     {
-        SceneManager.LoadScene(levelName);
+        GameMenager.Instance.CarregarCena(levelName);
     }
    
     public void Exit()
     {
-        Application.Quit();
+        GameMenager.Instance.SairDoJogo();
     }
 }

@@ -17,6 +17,7 @@ public class SplashController : MonoBehaviour
 
     IEnumerator Splash()
     {
+        
         yield return new WaitForSeconds(2f);
         if (GameMenager.Instance != null)
         {
