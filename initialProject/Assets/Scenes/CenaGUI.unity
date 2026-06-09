@@ -266,6 +266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 758069959}
   - component: {fileID: 758069960}
+  - component: {fileID: 758069961}
   m_Layer: 0
   m_Name: GUI-Manager
   m_TagString: Untagged
@@ -300,6 +301,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 972f0f371bae75f46b893c85559b02d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GUIManager
+--- !u!114 &758069961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758069958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e383c4b747972409a905473e1c61f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoinUI
+  coinText: {fileID: 710139181}
+  prefixo: 'Moedas: '
 --- !u!1 &1277352026
 GameObject:
   m_ObjectHideFlags: 0
