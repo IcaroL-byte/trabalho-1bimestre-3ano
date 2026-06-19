@@ -2,13 +2,18 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public void NotifyCoinPickup(int amount)
+    private void OnEnable()
     {
-        // Aqui está o Debug notificando a coleta através do script do jogador
-        Debug.Log($"<color=green>[Player]</color> Fui notificado pelo PlayerOM! Coletei {amount} moeda(s).");
+        PlayerOM.ChangeCoins += MoedasAlteradas;
+    }
 
-        // Exemplo de lógica interna do jogador:
-        // PlayCoinSound();
-        // TriggerCoinAnimation();
+    private void OnDisable()
+    {
+        PlayerOM.ChangeCoins -= MoedasAlteradas;
+    }
+
+    private void MoedasAlteradas(int quantidade)
+    {
+        Debug.Log($"<color=blue>[Player]</color> foi notificado! Total de moedas: {quantidade}");
     }
 }

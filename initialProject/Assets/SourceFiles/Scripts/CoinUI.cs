@@ -1,5 +1,5 @@
 using UnityEngine;
-using TMPro; // Use TextMeshPro
+using TMPro;
 
 public class CoinUI : MonoBehaviour
 {
@@ -8,32 +8,25 @@ public class CoinUI : MonoBehaviour
 
     private void OnEnable()
     {
-        CoinEventManager.OnTotalCoinsChanged += AtualizarUI;
+        PlayerOM.ChangeCoins += AtualizarUI;
     }
 
     private void OnDisable()
     {
-        CoinEventManager.OnTotalCoinsChanged -= AtualizarUI;
+        PlayerOM.ChangeCoins -= AtualizarUI;
     }
 
     private void Start()
     {
-        CoinEventManager.ResetCoins(); // Reseta ao iniciar a partida
-        coinText.color = Color.yellow; // Define a cor do texto para amarelo
+        CoinEventManager.ResetCoins();
+
+        coinText.color = Color.yellow;
+
         AtualizarUI(0);
     }
 
     private void AtualizarUI(int total)
     {
-        if (coinText != null)
-        {
-            coinText.text = $"{prefixo}{total}";
-        }
-    }
-
-    // Método público caso queira atualizar manualmente
-    public void AtualizarManual(int valor)
-    {
-        AtualizarUI(valor);
+        coinText.text = $"{prefixo}{total}";
     }
 }
