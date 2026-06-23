@@ -18,10 +18,9 @@ public class CoinUI : MonoBehaviour
 
     private void Start()
     {
-        CoinEventManager.ResetCoins();
-
+        CoinEventManager coinEventManager = new CoinEventManager();
+        coinEventManager.ResetCoins();
         coinText.color = Color.yellow;
-
         AtualizarUI(0);
     }
 
