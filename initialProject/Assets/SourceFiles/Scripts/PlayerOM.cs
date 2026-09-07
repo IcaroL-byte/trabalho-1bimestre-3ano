@@ -2,19 +2,27 @@ using System;
 
 public static class PlayerOM
 {
-    public static event Action<int> ChangeCoins;
-    
-    public static event Action<int> CoinCollected;
+    // Passa (int playerID, int newTotal)
+    public static event Action<int, int> ChangeCoins;
 
-    
-    public static void CoinsAreChanged(int quantidade)
+    // Disparado no pickup (int playerID, int amount)
+    public static event Action<int, int> CoinCollected;
+
+    // Disparado no fim da partida (int winningPlayerID)
+    public static event Action<int> GameOver;
+
+    public static void CoinsAreChanged(int playerID, int total)
     {
-        ChangeCoins?.Invoke(quantidade);
+        ChangeCoins?.Invoke(playerID, total);
     }
 
-    public static void CollectCoin(int amount)
+    public static void CollectCoin(int playerID, int amount = 1)
     {
-        CoinCollected?.Invoke(amount);
+        CoinCollected?.Invoke(playerID, amount);
     }
 
+    public static void TriggerGameOver(int winnerID)
+    {
+        GameOver?.Invoke(winnerID);
+    }
 }

@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "StarterAssets",
     "maps": [
         {
@@ -11,7 +12,8 @@
                     "id": "6bc1aaf4-b110-4ff7-891e-5b9fe6f32c4d",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Look",
@@ -19,15 +21,17 @@
                     "id": "2690c379-f54d-45be-a724-414123833eb4",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Jump",
                     "type": "Button",
                     "id": "8c4abdf8-4099-493a-aa1a-129acec7c3df",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Sprint",
@@ -35,7 +39,8 @@
                     "id": "980e881e-182c-404c-8cbf-3d09fdb48fef",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -56,7 +61,7 @@
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KeyboardMouse",
+                    "groups": "KeyboardMouse;Player1",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -67,7 +72,7 @@
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KeyboardMouse",
+                    "groups": "KeyboardMouse;Player1",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -78,7 +83,7 @@
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KeyboardMouse",
+                    "groups": "KeyboardMouse;Player1",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -89,7 +94,7 @@
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KeyboardMouse",
+                    "groups": "KeyboardMouse;Player1",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -100,7 +105,7 @@
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KeyboardMouse",
+                    "groups": "KeyboardMouse;Player2",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -111,7 +116,7 @@
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KeyboardMouse",
+                    "groups": "KeyboardMouse;Player2",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -122,7 +127,7 @@
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KeyboardMouse",
+                    "groups": "KeyboardMouse;Player2",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -133,7 +138,7 @@
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KeyboardMouse",
+                    "groups": "KeyboardMouse;Player2",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -155,7 +160,7 @@
                     "path": "<Pointer>/delta",
                     "interactions": "",
                     "processors": "InvertVector2(invertX=false),ScaleVector2(x=0.05,y=0.05)",
-                    "groups": "KeyboardMouse",
+                    "groups": "KeyboardMouse;Player1",
                     "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -166,7 +171,7 @@
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
                     "processors": "InvertVector2(invertX=false),StickDeadzone,ScaleVector2(x=300,y=300)",
-                    "groups": "Gamepad",
+                    "groups": "Gamepad;Player1",
                     "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -177,7 +182,7 @@
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KeyboardMouse",
+                    "groups": "KeyboardMouse;Player1",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -195,11 +200,22 @@
                 },
                 {
                     "name": "",
+                    "id": "0349c927-1fc2-4bac-a6e1-705b573f703b",
+                    "path": "<Keyboard>/rightCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse;Player2",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "dc65b89f-9bd3-43fb-92af-d0d87ba5faa4",
                     "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KeyboardMouse",
+                    "groups": "KeyboardMouse;Player1",
                     "action": "Sprint",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -211,6 +227,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6682640e-e70d-4702-b5a4-8343d7ea8695",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse;Player2",
                     "action": "Sprint",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -264,6 +291,16 @@
         {
             "name": "PS4 Controller",
             "bindingGroup": "PS4 Controller",
+            "devices": []
+        },
+        {
+            "name": "Player1",
+            "bindingGroup": "Player1",
+            "devices": []
+        },
+        {
+            "name": "Player2",
+            "bindingGroup": "Player2",
             "devices": []
         }
     ]

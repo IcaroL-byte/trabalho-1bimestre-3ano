@@ -5,6 +5,7 @@ public class CoinUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI coinText;
     [SerializeField] private string prefixo = "Moedas: ";
+    [SerializeField] private int targetPlayerID = 0;
 
     private void OnEnable()
     {
@@ -18,14 +19,18 @@ public class CoinUI : MonoBehaviour
 
     private void Start()
     {
-        CoinEventManager coinEventManager = new CoinEventManager();
-        coinEventManager.ResetCoins();
-        coinText.color = Color.yellow;
-        AtualizarUI(0);
+        if (coinText != null)
+        {
+            coinText.color = Color.yellow;
+        }
+        AtualizarUI(targetPlayerID, 0);
     }
 
-    private void AtualizarUI(int total)
+    private void AtualizarUI(int playerID, int total)
     {
-        coinText.text = $"{prefixo}{total}";
+        if (playerID == targetPlayerID && coinText != null)
+        {
+            coinText.text = $"{prefixo}{total}";
+        }
     }
 }

@@ -1,21 +1,21 @@
 using UnityEngine;
 
-public class CoinEventManager: MonoBehaviour
+public class CoinEventManager : MonoBehaviour
 {
     private int _totalCoins = 0;
 
     public int GetCurrentTotal() => _totalCoins;
 
-    public void AddCoins(int amount)
+    public void AddCoins(int playerID, int amount)
     {
         _totalCoins += amount;
 
-        
-        PlayerOM.CoinsAreChanged(_totalCoins);
-        
-        Debug.Log($"<color=yellow>[CoinEventManager]</color> +{amount} moedas | Total: {_totalCoins}");
+        // Dispara o evento atualizado repassando ID e Total
+        PlayerOM.CoinsAreChanged(playerID, _totalCoins);
+
+        Debug.Log($"<color=yellow>[CoinEventManager]</color> Jogador {playerID} +{amount} moedas | Novo Total: {_totalCoins}");
     }
-    
+
     private void OnEnable()
     {
         PlayerOM.CoinCollected += AddCoins;
@@ -25,12 +25,10 @@ public class CoinEventManager: MonoBehaviour
     {
         PlayerOM.CoinCollected -= AddCoins;
     }
-    
-    public void ResetCoins()
+
+    public void ResetCoins(int playerID = 0)
     {
         _totalCoins = 0;
-
-        
-        PlayerOM.CoinsAreChanged(_totalCoins);
+        PlayerOM.CoinsAreChanged(playerID, _totalCoins);
     }
 }
