@@ -566,6 +566,10 @@ PrefabInstance:
       propertyPath: JumpHeight
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2563429732134213952, guid: 332df604d1fc7fd46ae4013ce9b4a5d6, type: 3}
+      propertyPath: SpeedBoostPerCoin
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3795091336040275115, guid: 332df604d1fc7fd46ae4013ce9b4a5d6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.0000005
@@ -1338,6 +1342,10 @@ PrefabInstance:
     - target: {fileID: 2563429732134213952, guid: 332df604d1fc7fd46ae4013ce9b4a5d6, type: 3}
       propertyPath: JumpHeight
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2563429732134213952, guid: 332df604d1fc7fd46ae4013ce9b4a5d6, type: 3}
+      propertyPath: SpeedBoostPerCoin
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3795091336040275115, guid: 332df604d1fc7fd46ae4013ce9b4a5d6, type: 3}
       propertyPath: m_LocalPosition.x

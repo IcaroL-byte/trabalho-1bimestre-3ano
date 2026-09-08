@@ -21,6 +21,15 @@ namespace StarterAssets
         [Tooltip("Sprint speed of the character in m/s")]
         public float SprintSpeed = 5.335f;
 
+        [Header("Coin Speed Boost Config")]
+        [Tooltip("Aumento de velocidade por moeda coletada")]
+        public float SpeedBoostPerCoin = 0.5f;
+
+        [Tooltip("Multiplicador da velocidade de corrida em relação à velocidade normal")]
+        public float SprintMultiplier = 2.66f;
+
+        private float _baseMoveSpeed;
+
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
         public float RotationSmoothTime = 0.12f;
@@ -138,6 +147,21 @@ namespace StarterAssets
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
+
+            // Salva a velocidade base configurada inicialmente no Inspector
+            _baseMoveSpeed = MoveSpeed;
+        }
+
+        private void OnEnable()
+        {
+            // Inscreve no evento de alteração de moedas
+            PlayerOM.ChangeCoins += OnMoedasAlteradas;
+        }
+
+        private void OnDisable()
+        {
+            // Cancela a inscrição para evitar vazamentos
+            PlayerOM.ChangeCoins -= OnMoedasAlteradas;
         }
 
         private void Start()
@@ -152,7 +176,6 @@ namespace StarterAssets
 #if ENABLE_INPUT_SYSTEM 
             _playerInput = GetComponent<PlayerInput>();
             
-            // Define o Control Scheme com base no ID retornado pelo PlayerIdentity
             ConfigurarControlScheme();
 #else
             Debug.LogError("Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
@@ -167,6 +190,27 @@ namespace StarterAssets
             _fallTimeoutDelta = FallTimeout;
         }
 
+        /// <summary>
+        /// Chamado sempre que as moedas de qualquer jogador são alteradas
+        /// </summary>
+        private void OnMoedasAlteradas(int targetPlayerID, int totalCoins)
+        {
+            // Filtra para garantir que apenas o jogador dono desta instância receba o aumento
+            if (_identity != null && targetPlayerID == _identity.PlayerID)
+            {
+                AplicarAumentoDeVelocidade(totalCoins);
+            }
+        }
+
+        private void AplicarAumentoDeVelocidade(int totalCoins)
+        {
+            // Calcula a nova velocidade baseada na velocidade inicial + bônus de moedas
+            MoveSpeed = _baseMoveSpeed + (totalCoins * SpeedBoostPerCoin);
+            SprintSpeed = MoveSpeed * SprintMultiplier;
+
+            Debug.Log($"<color=cyan>[Player {_identity.PlayerID}]</color> Aumentou a velocidade! Moedas: {totalCoins} | Nova MoveSpeed: {MoveSpeed}");
+        }
+
 #if ENABLE_INPUT_SYSTEM
         private void ConfigurarControlScheme()
         {
@@ -174,7 +218,6 @@ namespace StarterAssets
 
             int playerID = _identity != null ? _identity.PlayerID : 0;
 
-            // Mapeia o ID para a Control Scheme do seu Input Action Asset
             switch (playerID)
             {
                 case 0:
