@@ -2,7 +2,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [field: SerializeField] public int PlayerID { get; private set; } = 0;
+    [Header("Player Settings")]
+    [Tooltip("ID único do jogador (ex: 1 para Player 1, 2 para Player 2)")]
+    public int PlayerID = 1;
+
+    [Header("Stats")]
+    public int TotalMoedas { get; private set; } = 0;
 
     public void SetupPlayer(int id)
     {
@@ -19,9 +24,13 @@ public class Player : MonoBehaviour
         PlayerOM.ChangeCoins -= MoedasAlteradas;
     }
 
-    // Agora recebe o playerID e a quantidade
-    private void MoedasAlteradas(int playerID, int quantidade)
+    private void MoedasAlteradas(int targetPlayerID, int totalCoins)
     {
-        Debug.Log($"<color=blue>[Player {playerID}]</color> foi notificado! Total de moedas: {quantidade}");
+        // Só atualiza se a notificação for para este PlayerID específico
+        if (targetPlayerID == PlayerID)
+        {
+            TotalMoedas = totalCoins;
+            Debug.Log($"<color=cyan>[Player {PlayerID}]</color> Moeda coletada! Total individual: {TotalMoedas}");
+        }
     }
 }
