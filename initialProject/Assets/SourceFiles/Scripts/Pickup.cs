@@ -1,110 +1,33 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class Pickup : MonoBehaviour
 {
-    [Header("Effects")]
-    public GameObject particleEffectPrefab;
+    [Header("Configurações do Item")]
+    [Tooltip("Quantidade de moedas que este item concede ao ser coletado.")]
+    [SerializeField] private int coinValue = 1;
 
-    [Header("Motion Settings")]
-    public float rotationSpeed = 100f;
-    public float bobbingAmount = 0.1f;
-    public float bobbingSpeed = 1f;
-
-    private Vector3 startPosition;
-    private float timer;
-
-    private void Start()
-    {
-        startPosition = transform.position;
-    }
-
-    private void Update()
-    {
-        // Rotação da moeda
-        transform.Rotate(
-            Vector3.up,
-            rotationSpeed * Time.deltaTime,
-            Space.World
-        );
-
-        // Movimento de sobe e desce
-        timer += Time.deltaTime * bobbingSpeed;
-
-        float newY =
-            startPosition.y +
-            Mathf.Sin(timer) * bobbingAmount;
-
-        transform.position = new Vector3(
-            transform.position.x,
-            newY,
-            transform.position.z
-        );
-    }
+    [Tooltip("Efeito sonoro ou visual a ser instanciado ao coletar (opcional).")]
+    [SerializeField] private GameObject collectEffect;
 
     private void OnTriggerEnter(Collider other)
     {
-        // Só jogadores podem coletar.
-        if (!other.CompareTag("Player"))
-        {
-            return;
-        }
-
-        // Procura o Player no próprio objeto
-        // ou nos objetos pais.
+        // Identifica o Player que encostou no trigger (mesmo se o Collider estiver num filho do prefab)
         Player player = other.GetComponentInParent<Player>();
 
-        // Se não encontrou, procura nos filhos.
-        if (player == null)
+        if (player != null)
         {
-            player = other.GetComponentInChildren<Player>();
+            // Pega o ID do jogador (Player 1 ou Player 2) e dispara o evento via método oficial do PlayerOM
+            PlayerOM.CollectCoin(player.PlayerID, coinValue);
+
+            // Instancia efeito de coleta se houver um atribuído
+            if (collectEffect != null)
+            {
+                Instantiate(collectEffect, transform.position, transform.rotation);
+            }
+
+            // Destroi a moeda da cena
+            Destroy(gameObject);
         }
-
-        // NÃO assume Player 1 se não encontrar.
-        if (player == null)
-        {
-            Debug.LogWarning(
-                $"[Pickup] Não foi possível identificar o Player " +
-                $"que tentou coletar a moeda. " +
-                $"Objeto: {other.gameObject.name}"
-            );
-
-            return;
-        }
-
-        // Garante que o ID seja válido.
-        if (player.PlayerID <= 0)
-        {
-            Debug.LogWarning(
-                $"[Pickup] PlayerID inválido ({player.PlayerID}) " +
-                $"no objeto {player.gameObject.name}."
-            );
-
-            return;
-        }
-
-        // Pega o ID REAL do jogador que tocou na moeda.
-        int playerID = player.PlayerID;
-
-        Debug.Log(
-            $"<color=green>[Pickup]</color> " +
-            $"Moeda coletada pelo Player {playerID}."
-        );
-
-        // Envia a moeda SOMENTE para esse PlayerID.
-        PlayerOM.CollectCoin(playerID, 1);
-
-        // Efeito visual.
-        if (particleEffectPrefab != null)
-        {
-            Instantiate(
-                particleEffectPrefab,
-                transform.position,
-                Quaternion.identity
-            );
-        }
-
-        // Remove a moeda.
-        Destroy(gameObject);
     }
 }
-

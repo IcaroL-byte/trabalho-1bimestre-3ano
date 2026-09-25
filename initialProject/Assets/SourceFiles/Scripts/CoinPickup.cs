@@ -1,14 +1,20 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class CoinPickup : MonoBehaviour
 {
-    private int coinValue = 1;
-    
+    [SerializeField] private int coinValue = 1;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        // Pega o PlayerID de quem realmente encostou no Trigger
+        Player player = other.GetComponentInParent<Player>();
+
+        if (player != null)
         {
-            PlayerOM.CollectCoin(coinValue);
+            // Executa o método correto do PlayerOM passando o ID do jogador atual
+            PlayerOM.CollectCoin(player.PlayerID, coinValue);
+
             Destroy(gameObject);
         }
     }
