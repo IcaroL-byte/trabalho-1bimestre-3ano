@@ -1,13 +1,39 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CoinEventManager : MonoBehaviour
 {
+    [Header("Status da Fase")]
+    [Tooltip("Quantidade de moedas restantes no mapa.")]
+    public int RemainingCoins;
+
     // Guarda as moedas separadamente para cada PlayerID.
-    // Exemplo:
-    // Player 1 = 5 moedas
-    // Player 2 = 3 moedas
     private Dictionary<int, int> _playerCoins = new Dictionary<int, int>();
+
+    private void Start()
+    {
+        // Conta automaticamente a quantidade inicial de moedas presentes na cena
+        UpdateRemainingCoinsCount();
+    }
+
+    /// <summary>
+    /// Busca na cena os itens coletáveis e define a contagem inicial de moedas restantes.
+    /// </summary>
+
+    public void UpdateRemainingCoinsCount()
+    {
+        int pickupCount = FindObjectsByType<Pickup>(FindObjectsSortMode.None).Length;
+
+        // Caso seu projeto use também o script 'CoinPickup', soma a quantidade total
+        Type coinPickupType = Type.GetType("CoinPickup");
+        if (coinPickupType != null)
+        {
+            pickupCount += FindObjectsByType(coinPickupType, FindObjectsSortMode.None).Length;
+        }
+
+        RemainingCoins = pickupCount;
+    }
 
     /// <summary>
     /// Retorna o total de moedas de um jogador específico.
@@ -57,6 +83,9 @@ public class CoinEventManager : MonoBehaviour
         // Adiciona as moedas SOMENTE ao PlayerID recebido.
         _playerCoins[playerID] += amount;
 
+        // Subtrai da quantidade global de moedas restantes no mapa
+        RemainingCoins = Mathf.Max(0, RemainingCoins - amount);
+
         int totalDoJogador = _playerCoins[playerID];
 
         // Envia o ID junto com o total.
@@ -66,7 +95,7 @@ public class CoinEventManager : MonoBehaviour
         Debug.Log(
             $"<color=yellow>[CoinEventManager]</color> " +
             $"Player {playerID} recebeu +{amount} moeda(s). " +
-            $"Total individual: {totalDoJogador}"
+            $"Total individual: {totalDoJogador} | Moedas restantes na cena: {RemainingCoins}"
         );
     }
 
@@ -88,6 +117,9 @@ public class CoinEventManager : MonoBehaviour
                 // Avisa somente aquele jogador.
                 PlayerOM.CoinsAreChanged(id, 0);
             }
+
+            // Recalcula o total de moedas disponíveis no mapa
+            UpdateRemainingCoinsCount();
 
             Debug.Log(
                 "<color=orange>[CoinEventManager]</color> " +

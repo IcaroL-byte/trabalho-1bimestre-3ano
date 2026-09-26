@@ -37,6 +37,16 @@ public class GameMenager : MonoBehaviour
         GarantirAudioListenerUnico();
     }
 
+    void LateUpdate()
+    {
+        CoinEventManager coinEvent = FindObjectOfType<CoinEventManager>();
+        if(coinEvent.RemainingCoins <= 0)
+        {
+            Debug.Log("<color=yellow>[GameManager]</color> Todas as moedas coletadas! Transição para o MenuPrincipal.");
+            CarregarCena(cenaMenu);
+        }
+    }
+
     private void OnDestroy()
     {
         // Limpar inscrição para evitar leaks
